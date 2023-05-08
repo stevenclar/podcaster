@@ -1,27 +1,44 @@
-# Podcaster
+# Prueba Angular Esoluzion
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+Aplicación que permite listar y escuchar los 100 podcast mas escuchados
 
-## Development server
+## Comenzando 🚀
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Clonar el repositorio
+```
+git clone https://github.com/stevenclar/podcaster
+```
 
-## Code scaffolding
+### Pre-requisitos 📋
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Tener instalado node con alguna de las siguientes versiones 14.20.x, 16.13.x and 18.10, npm, y angular cli
 
-## Build
+### Instalación 🔧
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+cd podcaster
+```
 
-## Running unit tests
+```
+npm i
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+ng serve -o
+```
 
-## Running end-to-end tests
+## Construido con 🛠️
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+* [Angular](https://angular.io/docs/) - El framework web usado
+* [Tailwind](https://tailwindcss.com/docs/) - Framework css
+* [RxJS](https://rxjs.dev/api/) - Librería Javascript de programación reactiv
 
-## Further help
+## Autores ✒️
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* **Deivid Steven Gonzalez** - *Desarrollo del proyecto* - [stevenclar](https://github.com/stevenclar)
+## Expresiones de Gratitud 🎁
+
+* Muchas gracias Esoluzion por la oportunidad 🤓.
+
+---
+⌨️ con ❤️ por [StevenClar](https://github.com/stevenclar) 😊
