@@ -1,0 +1,45 @@
+<div
+  class="w-full bg-white border border-gray-200 rounded-lg cursor-pointer mx-auto shadow-lg"
+  *ngIf="podcast"
+>
+  <div class="flex flex-col p-4">
+    <h1 class="text-lg font-bold">Episodes: {{ podcast.episodes?.length }}</h1>
+  </div>
+</div>
+
+<div
+  class="w-full bg-white border border-gray-200 rounded-lg cursor-pointer mx-auto shadow-lg mt-6"
+  *ngIf="podcast"
+>
+  <div class="flex flex-col p-4">
+    <div class="relative overflow-x-auto sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-md text-gray-700 uppercase bg-white font-bold">
+          <tr class="border-b">
+            <th scope="col" class="px-6 py-3">Title</th>
+            <th scope="col" class="px-6 py-3">Date</th>
+            <th scope="col" class="px-6 py-3">Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let episode of podcast.episodes; let i = index"
+            class="border-b hover:bg-gray-100"
+            [ngClass]="{ 'bg-gray-50': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              {{ episode.title }}
+            </th>
+            <td class="px-6 py-4">
+              {{ episode.published | date : "d/M/y" }}
+            </td>
+            <td class="px-6 py-4">{{ episode.duration | date :'HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

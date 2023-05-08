@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import Podcast from 'src/app/core/interfaces/Podcast';
+import { PodcastService } from 'src/app/core/services/podcast/podcast.service';
 
 @Component({
   selector: 'app-podcast-card',
@@ -9,5 +10,11 @@ import Podcast from 'src/app/core/interfaces/Podcast';
 export class PodcastCardComponent {
   @Input() podcast!: Podcast;
 
-  constructor() {}
+  constructor(
+    private podcastService: PodcastService,
+  ) {}
+
+  goToPodcastDetail(podcast: Podcast) {
+    this.podcastService.setSelectedPodcast(podcast);
+  }
 }

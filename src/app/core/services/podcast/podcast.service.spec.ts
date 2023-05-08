@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PodcastService } from './podcast.service';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import Podcast from '../interfaces/Podcast';
+import Podcast from '../../interfaces/Podcast';
 
 describe('PodcastService', () => {
   let service: PodcastService;
