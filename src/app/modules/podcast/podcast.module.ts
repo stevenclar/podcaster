@@ -18,7 +18,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: ':id/episodes/:episodeId',
+        path: 'episode/:episodeId',
         loadChildren: () =>
           import('src/app/modules/episode-detail/episode-detail.module').then(
             (m) => m.EpisodeDetailModule

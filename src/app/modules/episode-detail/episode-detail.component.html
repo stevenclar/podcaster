@@ -1,1 +1,10 @@
-<p>episode-detail works!</p>
+<div
+  class="w-full bg-white border border-gray-200 rounded-lg cursor-pointer mx-auto shadow-lg"
+  *ngIf="episode"
+>
+  <div class="flex flex-col p-4">
+    <h1 class="text-xl font-bold pb-2">{{episode.title}}</h1>
+    <div [innerHTML]="rowHtmlContent" class="pb-4"></div>
+    <audio controls class="w-full pt-4" [src]="episode.audioUrl" preload="auto"></audio>
+  </div>
+</div>

@@ -25,11 +25,12 @@
           <tr
             *ngFor="let episode of podcast.episodes; let i = index"
             class="border-b hover:bg-gray-100"
-            [ngClass]="{ 'bg-gray-50': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
+            [ngClass]="{ 'bg-gray-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
+            (click)="onEpisodeClick(episode)"
           >
             <th
               scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              class="px-6 py-4 font-medium text-cyan-700 whitespace-nowrap"
             >
               {{ episode.title }}
             </th>

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import Podcast from 'src/app/core/interfaces/Podcast';
 import { PodcastService } from 'src/app/core/services/podcast/podcast.service';
 
@@ -12,9 +13,11 @@ export class PodcastCardComponent {
 
   constructor(
     private podcastService: PodcastService,
+    private router: Router
   ) {}
 
   goToPodcastDetail(podcast: Podcast) {
     this.podcastService.setSelectedPodcast(podcast);
+    this.router.navigate(['/podcast', podcast.id]);
   }
 }
