@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, finalize, map } from 'rxjs';
 import Podcast from '../../interfaces/Podcast';
 import { StateService } from '../state/state.service';
 
@@ -21,6 +21,7 @@ export class PodcastService {
     if (cachePodcasts && cachePodcasts?.expire > Date.now()) {
       return new Observable((observer) => {
         observer.next(cachePodcasts.data);
+        this.stateService.updateState({ isLoading: false })
         observer.complete();
       });
     } else {
@@ -52,12 +53,18 @@ export class PodcastService {
             );
 
             return parsedData;
-          })
+          }),
+          catchError((err) => {
+            console.error(err);
+            return err;
+          }),
+          finalize(() => this.stateService.updateState({ isLoading: false }))
         );
     }
   }
 
   getPodcast(id: string): Observable<any> {
+    this.stateService.updateState({ isLoading: true });
     const podcastCacheKey = `${this.PODCAST_DETAIL_CACHE_KEY}-${id}`;
     const cachePodcasts = JSON.parse(
       localStorage.getItem(podcastCacheKey) as string
@@ -66,6 +73,7 @@ export class PodcastService {
       return new Observable((observer) => {
         this.setSelectedPodcast(cachePodcasts.data);
         observer.next(cachePodcasts.data);
+        this.stateService.updateState({ isLoading: false })
         observer.complete();
       });
     } else {
@@ -113,7 +121,12 @@ export class PodcastService {
               JSON.stringify(cacheData as any)
             );
             this.setSelectedPodcast(parsedData);
-          })
+          }),
+          catchError((err) => {
+            console.error(err);
+            return err;
+          }),
+          finalize(() => this.stateService.updateState({ isLoading: false }))
         );
     }
   }
