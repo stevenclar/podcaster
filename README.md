@@ -31,7 +31,7 @@ ng serve -o
 
 * [Angular](https://angular.io/docs/) - El framework web usado
 * [Tailwind](https://tailwindcss.com/docs/) - Framework css
-* [RxJS](https://rxjs.dev/api/) - Librería Javascript de programación reactiv
+* [RxJS](https://rxjs.dev/api/) - Librería Javascript de programación reactiva
 
 ## Autores ✒️
 

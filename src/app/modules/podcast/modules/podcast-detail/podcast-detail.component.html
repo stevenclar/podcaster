@@ -39,6 +39,22 @@
             </td>
             <td class="px-6 py-4">{{ episode.duration | date :'HH:mm:ss' }}</td>
           </tr>
+          <tr
+            *ngIf="!podcast.episodes?.length"
+            class="border-b animate-pulse max-w-sm h-4"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 bg-gray-200"
+            >
+              
+            </th>
+            <td class="bg-gray-200">
+              
+            </td>
+            <td class="bg-gray-200"></td>
+          </tr>
+
         </tbody>
       </table>
     </div>

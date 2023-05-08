@@ -13,14 +13,14 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('src/app/modules/podcast-detail/podcast-detail.module').then(
+          import('src/app/modules/podcast/modules/podcast-detail/podcast-detail.module').then(
             (m) => m.PodcastDetailModule
           ),
       },
       {
         path: 'episode/:episodeId',
         loadChildren: () =>
-          import('src/app/modules/episode-detail/episode-detail.module').then(
+          import('src/app/modules/podcast/modules/episode-detail/episode-detail.module').then(
             (m) => m.EpisodeDetailModule
           ),
       },
