@@ -25,9 +25,11 @@ export class PodcastComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id') as string;
       this.podcastService
-        .getPodcast(this.id)
+        .getPodcastDetail(this.id)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => null);
+        .subscribe((podcast) => {
+          this.podcastService.setSelectedPodcast(podcast);
+        });
       this.stateService.state$.subscribe((state) => {
         this.podcast = state.data?.selectedPodcast as Podcast;
       });

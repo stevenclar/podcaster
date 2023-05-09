@@ -9,5 +9,4 @@ interface Data {
 export default interface AppState {
   data: Data | null;
   isLoading: boolean;
-  error: string;
 }
