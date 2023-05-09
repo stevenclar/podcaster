@@ -140,6 +140,11 @@ describe('PodcastService', () => {
     service = TestBed.inject(PodcastService);
     stateService = TestBed.inject(StateService);
     httpClient = TestBed.inject(HttpClient);
+    localStorage.clear();
+  });
+
+  afterAll(() => {
+    localStorage.clear();
   });
 
   it('should be created', () => {
@@ -147,7 +152,6 @@ describe('PodcastService', () => {
   });
 
   it('should store podcasts data in cache', () => {
-    localStorage.clear();
     const mockResponse = { feed: { entry: mockPodcastsData } };
     spyOn(localStorage, 'setItem').and.callThrough();
     spyOn(httpClient, 'get').and.returnValue(of(mockResponse));
@@ -196,7 +200,6 @@ describe('PodcastService', () => {
   });
 
   it('should store podcast data in cache', () => {
-    localStorage.clear();
     spyOn(localStorage, 'setItem').and.callThrough();
     spyOn(httpClient, 'get').and.returnValue(of(mockPodcastData));
     spyOn(stateService, 'getData').and.returnValue({
@@ -228,7 +231,6 @@ describe('PodcastService', () => {
   });
 
   it('should return podcast data from API', () => {
-    localStorage.clear();
     spyOn(localStorage, 'setItem').and.callThrough();
     spyOn(httpClient, 'get').and.returnValue(of(mockPodcastData));
     spyOn(stateService, 'getData').and.returnValue({

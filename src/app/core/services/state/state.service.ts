@@ -47,10 +47,12 @@ export class StateService {
     3. We then set the new state in localStorage using the STATE_KEY.
     4. Finally, we call next on the BehaviorSubject to make sure all the subscribers are notified of the new state. 
   */
-  updateState(newState: Partial<AppState>): void {    
-    const currentState = this.stateSubject.getValue();
-    const updatedState = { ...currentState, ...newState };
-    localStorage.setItem(this.STATE_KEY, JSON.stringify(updatedState));
-    this.stateSubject.next(updatedState);
+  updateState(newState: Partial<AppState>): void {  
+    if (Object.keys(newState).length) {
+      const currentState = this.stateSubject.getValue();
+      const updatedState = { ...currentState, ...newState };
+      localStorage.setItem(this.STATE_KEY, JSON.stringify(updatedState));
+      this.stateSubject.next(updatedState);
+    }  
   }
 }
