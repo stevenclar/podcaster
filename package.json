@@ -8,7 +8,8 @@
     "deploy": "ng build --configuration=production --base-href=/podcaster/",
     "start-production": "ng build --configuration=production && http-server dist/podcaster",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
   },
   "private": true,
   "dependencies": {
