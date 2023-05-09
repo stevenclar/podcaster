@@ -4,13 +4,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PodcastService } from './podcast.service';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import Podcast from '../../interfaces/Podcast';
+import { StateService } from '../state/state.service';
 
 describe('PodcastService', () => {
   let service: PodcastService;
+  let stateService: StateService;
   let httpClient: HttpClient;
 
-  const mockData = [
+  const mockPodcastsData = [
     {
       'im:name': {
         label: 'Friday Night Karaoke',
@@ -96,7 +97,7 @@ describe('PodcastService', () => {
     },
   ];
 
-  const expectedResponse = [
+  const expectedPodcastsResponse = [
     {
       id: '1574029840',
       title: 'Friday Night Karaoke',
@@ -108,12 +109,36 @@ describe('PodcastService', () => {
     },
   ];
 
+  const mockPodcastData = {
+    contents:
+      '\n\n\n{\n "resultCount":1,\n "results": [\n{"wrapperType":"track", "kind":"podcast", "artistId":1535844019, "collectionId":1535809341, "trackId":1535809341, "artistName":"The Joe Budden Network", "collectionName":"The Joe Budden Podcast", "trackName":"The Joe Budden Podcast", "collectionCensoredName":"The Joe Budden Podcast", "trackCensoredName":"The Joe Budden Podcast", "artistViewUrl":"https://podcasts.apple.com/us/artist/the-joe-budden-network/1535844019?uo=4", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/the-joe-budden-podcast/id1535809341?uo=4", "feedUrl":"https://jbpod.libsyn.com/applepodcast", "trackViewUrl":"https://podcasts.apple.com/us/podcast/the-joe-budden-podcast/id1535809341?uo=4", "artworkUrl30":"https://is2-ssl.mzstatic.com/image/thumb/Podcasts113/v4/f2/21/fa/f221fabd-017f-5125-633b-f1fe4f39802a/mza_182995249085044287.jpg/30x30bb.jpg", "artworkUrl60":"https://is2-ssl.mzstatic.com/image/thumb/Podcasts113/v4/f2/21/fa/f221fabd-017f-5125-633b-f1fe4f39802a/mza_182995249085044287.jpg/60x60bb.jpg", "artworkUrl100":"https://is2-ssl.mzstatic.com/image/thumb/Podcasts113/v4/f2/21/fa/f221fabd-017f-5125-633b-f1fe4f39802a/mza_182995249085044287.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "collectionHdPrice":0, "releaseDate":"2023-05-03T07:00:00Z", "collectionExplicitness":"notExplicit", "trackExplicitness":"explicit", "trackCount":386, "trackTimeMillis":9552, "country":"USA", "currency":"USD", "primaryGenreName":"Music", "contentAdvisoryRating":"Explicit", "artworkUrl600":"https://is2-ssl.mzstatic.com/image/thumb/Podcasts113/v4/f2/21/fa/f221fabd-017f-5125-633b-f1fe4f39802a/mza_182995249085044287.jpg/600x600bb.jpg", "genreIds":["1310", "26"], "genres":["Music", "Podcasts"]}]\n}\n\n\n',
+    status: {
+      url: 'https://itunes.apple.com/lookup?id=1535809341',
+      content_type: 'text/javascript; charset=utf-8',
+      http_code: 200,
+      response_time: 204,
+      content_length: 597,
+    },
+  };
+
+  const expectedPodcastResponse = {
+    id: '1574029840',
+    title: 'Friday Night Karaoke',
+    description:
+      'No ads, no gimmicks - just Karaoke! Friday Night Karaoke features amateur artists every week singing the songs they love, just for you! Get your weekly dose of vocal expression. Get featured on the podcast by joining the official Friday Night Karaoke Facebook group at https://www.facebook.com/groups/fridaynightkaraoke!',
+    image:
+      'https://is5-ssl.mzstatic.com/image/thumb/Podcasts116/v4/5b/88/a1/5b88a186-ce6a-5268-cc49-8e896c737729/mza_7354436562524572096.jpg/170x170bb.png',
+    author: 'Friday Night Karaoke',
+    episodes: [],
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [PodcastService],
     });
     service = TestBed.inject(PodcastService);
+    stateService = TestBed.inject(StateService);
     httpClient = TestBed.inject(HttpClient);
   });
 
@@ -121,37 +146,41 @@ describe('PodcastService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should store data in cache', () => {
+  it('should store podcasts data in cache', () => {
     localStorage.clear();
-    const mockResponse = { feed: { entry: mockData } };
+    const mockResponse = { feed: { entry: mockPodcastsData } };
     spyOn(localStorage, 'setItem').and.callThrough();
     spyOn(httpClient, 'get').and.returnValue(of(mockResponse));
 
     service.getPodcasts().subscribe((data) => {
-      expect(data).toEqual(expectedResponse);
+      expect(data).toEqual(expectedPodcastsResponse);
+      expect(httpClient.get).toHaveBeenCalled();
       expect(localStorage.setItem).toHaveBeenCalled();
     });
   });
 
-  it('should return data from cache', () => {
+  it('should return podcasts data from cache', () => {
     const mockResponse = {
-      feed: { entry: mockData },
+      feed: { entry: mockPodcastsData },
     };
     spyOn(localStorage, 'getItem').and.returnValue(
-      JSON.stringify({data: expectedResponse, expire: Date.now() + 1000})
+      JSON.stringify({
+        data: expectedPodcastsResponse,
+        expire: Date.now() + 1000,
+      })
     );
     spyOn(httpClient, 'get').and.returnValue(of(mockResponse));
 
     service.getPodcasts().subscribe((data) => {
-      expect(data).toEqual(expectedResponse);
+      expect(data).toEqual(expectedPodcastsResponse);
       expect(localStorage.getItem).toHaveBeenCalled();
       expect(httpClient.get).not.toHaveBeenCalled();
     });
   });
 
-  it('should return data from API', () => {
+  it('should return podcasts data from API', () => {
     const mockResponse = {
-      feed: { entry: mockData },
+      feed: { entry: mockPodcastsData },
       expire: Date.now() - 1000,
     };
     spyOn(localStorage, 'getItem').and.returnValue(
@@ -160,9 +189,66 @@ describe('PodcastService', () => {
     spyOn(httpClient, 'get').and.returnValue(of(mockResponse));
 
     service.getPodcasts().subscribe((data) => {
-      expect(data).toEqual(expectedResponse);
+      expect(data).toEqual(expectedPodcastsResponse);
       expect(localStorage.getItem).toHaveBeenCalled();
       expect(httpClient.get).toHaveBeenCalled();
+    });
+  });
+
+  it('should store podcast data in cache', () => {
+    localStorage.clear();
+    spyOn(localStorage, 'setItem').and.callThrough();
+    spyOn(httpClient, 'get').and.returnValue(of(mockPodcastData));
+    spyOn(stateService, 'getData').and.returnValue({
+      selectedPodcast: expectedPodcastsResponse[0],
+    });
+
+    service.getPodcastDetail('1574029840').subscribe((data) => {
+      expect(data).toEqual(expectedPodcastResponse);
+      expect(httpClient.get).toHaveBeenCalled();
+      expect(localStorage.setItem).toHaveBeenCalled();
+    });
+  });
+
+  it('should return podcast data from cache', () => {
+    spyOn(httpClient, 'get').and.returnValue(of(mockPodcastData));
+    
+    spyOn(localStorage, 'getItem').and.returnValue(
+      JSON.stringify({
+        data: expectedPodcastResponse,
+        expire: Date.now() + 1000,
+      }) 
+    );
+
+    service.getPodcastDetail('1574029840').subscribe((data) => {
+      expect(data).toEqual(expectedPodcastResponse);
+      expect(localStorage.getItem).toHaveBeenCalled();
+      expect(httpClient.get).not.toHaveBeenCalled();
+    });
+  });
+
+  it('should return podcast data from API', () => {
+    localStorage.clear();
+    spyOn(localStorage, 'setItem').and.callThrough();
+    spyOn(httpClient, 'get').and.returnValue(of(mockPodcastData));
+    spyOn(stateService, 'getData').and.returnValue({
+      selectedPodcast: expectedPodcastsResponse[0],
+    });
+
+    service.getPodcastDetail('157402984').subscribe((data) => {
+      expect(data).toEqual(expectedPodcastResponse);
+      expect(httpClient.get).toHaveBeenCalled();
+      expect(localStorage.setItem).toHaveBeenCalled();
+    });
+  });
+
+  it('should store selected podcast', () => {
+    spyOn(stateService, 'updateState').and.callThrough();
+    service.setSelectedPodcast(expectedPodcastsResponse[0]);
+    expect(stateService.updateState).toHaveBeenCalledWith({
+      data: {
+        selectedPodcast: expectedPodcastsResponse[0],
+      },
     });
   });
 });

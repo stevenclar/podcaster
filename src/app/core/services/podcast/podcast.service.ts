@@ -135,7 +135,7 @@ export class PodcastService {
     3. We grab the data property from the state service and we spread it into the new object.
     4. We set the selectedPodcast property in the data object to the podcast we passed as an argument to the method. 
   */
-  setSelectedPodcast(podcast: Podcast) {
+  setSelectedPodcast(podcast: Podcast): void {
     this.stateService.updateState({
       data: {
         ...this.stateService.getData('data'),
@@ -183,7 +183,7 @@ export class PodcastService {
     3. It creates a cache data object with the expire date and the podcast data.
     4. It stores the cache data object as a string in the local storage using the podcast id as a key. 
   */
-  private setPodcastCache(id: string, podcast: Podcast) {
+  private setPodcastCache(id: string, podcast: Podcast): void {
     const expire = Date.now() + this.CACHE_TIME;
     const cacheData = {
       expire,
@@ -201,7 +201,7 @@ export class PodcastService {
     3. We then use localStorage.setItem() to store the cacheData object as a string.
     4. Finally, we set the cache data in localStorage. We can’t set objects in localStorage so we need to stringify the cacheData object.
   */
-  private setPodcastsCache(podcasts: Podcast[]) {
+  private setPodcastsCache(podcasts: Podcast[]): void {
     const expire = Date.now() + this.CACHE_TIME;
     const cacheData = {
       expire,
@@ -221,7 +221,7 @@ export class PodcastService {
     5. We then create a getPodcast() method that will be responsible for fetching an individual podcast by its id.
     6. We then create a getEpisodes() method that will be responsible for fetching the episodes of a podcast by its id. 
   */
-  private getPodcastsCacheKey() {
+  private getPodcastsCacheKey(): string {
     return `${this.PODCAST_CACHE_KEY}`;
   }
 
@@ -231,7 +231,7 @@ export class PodcastService {
     2. We then create a method that returns the cache key for a podcast detail. 
     It uses the prefix and the podcast id to create a unique key. 
   */
-  private getPodcastCacheKey(id: string) {
+  private getPodcastCacheKey(id: string): string {
     return `${this.PODCAST_DETAIL_CACHE_KEY}-${id}`;
   }
 }
