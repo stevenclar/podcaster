@@ -13,7 +13,9 @@ git clone https://github.com/stevenclar/podcaster
 
 Tener instalado node con alguna de las siguientes versiones 14.20.x, 16.13.x and 18.10, npm, y angular cli
 
-### Instalación 🔧
+## Instalación 🔧
+
+### development
 
 ```
 cd podcaster
@@ -24,7 +26,21 @@ npm i
 ```
 
 ```
-ng serve -o
+npm run start
+```
+
+### production
+
+```
+cd podcaster
+```
+
+```
+npm i
+```
+
+```
+npm run start-production 
 ```
 
 ## Construido con 🛠️
