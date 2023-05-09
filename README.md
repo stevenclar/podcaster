@@ -1,6 +1,7 @@
 # Prueba Angular Esoluzion
 
-Aplicación que permite listar y escuchar los 100 podcast mas escuchados
+Aplicación que permite listar y escuchar los 100 podcast mas escuchados y desplegada en [Podcaster](https://stevenclar.github.io/podcaster)
+
 
 ## Comenzando 🚀
 
@@ -42,6 +43,10 @@ npm i
 ```
 npm run start-production 
 ```
+
+## Despliegue 📦
+
+_Se le ha integrado CI con github actions y github pages entonces cada que se hace push a main se actualiza la página_
 
 ## Construido con 🛠️
 
